@@ -9,11 +9,11 @@ use Doctrine\ORM\Query\SqlWalker;
 
 class ToTsquery extends FunctionNode
 {
-    private $config = null;
+    private $config;
 
     private $expr1;
 
-    public function parse(Parser $parser)
+    public function parse(Parser $parser): void
     {
         $parser->match(Lexer::T_IDENTIFIER);
         $parser->match(Lexer::T_OPEN_PARENTHESIS);
@@ -28,19 +28,19 @@ class ToTsquery extends FunctionNode
         $parser->match(Lexer::T_CLOSE_PARENTHESIS);
     }
 
-    public function getSql(SqlWalker $sqlWalker)
+    public function getSql(SqlWalker $sqlWalker): string
     {
         if (null === $this->config) {
             return sprintf(
                 'to_tsquery(%s)',
                 $this->expr1->dispatch($sqlWalker)
             );
-        } else {
-            return sprintf(
-                'to_tsquery(%s, %s)',
-                $this->config->dispatch($sqlWalker),
-                $this->expr1->dispatch($sqlWalker)
-            );
         }
+
+        return sprintf(
+            'to_tsquery(%s, %s)',
+            $this->config->dispatch($sqlWalker),
+            $this->expr1->dispatch($sqlWalker)
+        );
     }
 }

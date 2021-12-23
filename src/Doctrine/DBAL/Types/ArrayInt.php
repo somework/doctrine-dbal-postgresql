@@ -7,29 +7,29 @@ use Doctrine\DBAL\Types\Type;
 
 class ArrayInt extends Type
 {
-    const ARRAY_INT = 'integer[]';
+    public const ARRAY_INT = 'integer[]';
 
-    public function getName()
+    public function getName(): string
     {
         return static::ARRAY_INT;
     }
 
-    public function getSQLDeclaration(array $fieldDeclaration, AbstractPlatform $platform)
+    public function getSQLDeclaration(array $column, AbstractPlatform $platform): string
     {
         return $platform->getDoctrineTypeMapping(static::ARRAY_INT);
     }
 
-    public function convertToDatabaseValue($array, AbstractPlatform $platform)
+    public function convertToDatabaseValue($array, AbstractPlatform $platform): ?string
     {
         if ($array === null) {
-            return;
+            return null;
         }
         $convertArray = [];
         foreach ($array as $value) {
             if (!is_numeric($value)) {
                 continue;
             }
-            $convertArray[] = (int) $value;
+            $convertArray[] = (int)$value;
         }
 
         return '{'.implode(',', $convertArray).'}';
@@ -38,12 +38,12 @@ class ArrayInt extends Type
     public function convertToPHPValue($value, AbstractPlatform $platform)
     {
         if ($value === null) {
-            return;
+            return null;
         }
 
         $value = ltrim(rtrim($value, '}'), '{');
         if ($value === '') {
-            return;
+            return null;
         }
         $r = explode(',', $value);
         foreach ($r as &$v) {

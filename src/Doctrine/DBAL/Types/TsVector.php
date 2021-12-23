@@ -23,7 +23,7 @@ class TsVector extends Type
     /**
      * {@inheritdoc}
      */
-    public function getName()
+    public function getName(): string
     {
         return 'tsvector';
     }
@@ -31,7 +31,7 @@ class TsVector extends Type
     /**
      * {@inheritdoc}
      */
-    public function canRequireSQLConversion()
+    public function canRequireSQLConversion(): bool
     {
         return true;
     }
@@ -39,7 +39,7 @@ class TsVector extends Type
     /**
      * {@inheritdoc}
      */
-    public function getSQLDeclaration(array $fieldDeclaration, AbstractPlatform $platform)
+    public function getSQLDeclaration(array $column, AbstractPlatform $platform): string
     {
         return 'TSVECTOR';
     }
@@ -47,19 +47,17 @@ class TsVector extends Type
     /**
      * Converts a value from its database representation to its PHP representation
      * of this type.
-     *
      * @param mixed            $value    The value to convert.
      * @param AbstractPlatform $platform The currently used database platform.
-     *
-     * @return mixed The PHP representation of the value.
+     * @return array The PHP representation of the value.
      */
-    public function convertToPHPValue($value, AbstractPlatform $platform)
+    public function convertToPHPValue($value, AbstractPlatform $platform): array
     {
         // Wish there was a database way to make this cleaner... implement in convertToPHPValueSQL
-        $terms = array();
+        $terms = [];
         if (!empty($value)) {
             foreach (explode(' ', $value) as $item) {
-                list($term, $_) = explode(':', $item);
+                [$term,] = explode(':', $item);
                 $terms[] = trim($term, '\'');
             }
         }
@@ -75,7 +73,7 @@ class TsVector extends Type
      *
      * @return string
      */
-    public function convertToPHPValueSQL($value, $platform)
+    public function convertToPHPValueSQL($value, $platform): string
     {
         return $value;
     }
@@ -88,7 +86,7 @@ class TsVector extends Type
      *
      * @return string
      */
-    public function convertToDatabaseValueSQL($sqlExpr, AbstractPlatform $platform)
+    public function convertToDatabaseValueSQL($sqlExpr, AbstractPlatform $platform): string
     {
         return sprintf('to_tsvector(%s)', $sqlExpr);
     }

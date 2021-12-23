@@ -2,6 +2,9 @@
 
 namespace OpsWay\Tests;
 
+use Doctrine\ORM\Mapping\Column;
+use Doctrine\ORM\Mapping\Id;
+
 /** @Entity */
 class Entity
 {
@@ -12,5 +15,5 @@ class Entity
      * @var array
      * @Column(type="json", nullable=true, options={"jsonb": true})
      */
-    private $metaData;
+    private array $metaData;
 }

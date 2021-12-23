@@ -7,24 +7,24 @@ use Doctrine\DBAL\Types\Type;
 
 class TsQuery extends Type
 {
-    const TS_QUERY = 'tsquery';
+    public const TS_QUERY = 'tsquery';
 
-    public function getName()
+    public function getName(): string
     {
         return 'tsquery';
     }
 
-    public function canRequireSQLConversion()
+    public function canRequireSQLConversion(): bool
     {
         return true;
     }
 
-    public function getSQLDeclaration(array $fieldDeclaration, AbstractPlatform $platform)
+    public function getSQLDeclaration(array $column, AbstractPlatform $platform): string
     {
         return $platform->getDoctrineTypeMapping(static::TS_QUERY);
     }
 
-    public function convertToDatabaseValueSQL($sqlExpr, AbstractPlatform $platform)
+    public function convertToDatabaseValueSQL($sqlExpr, AbstractPlatform $platform): string
     {
         return sprintf('plainto_tsquery(%s)', $sqlExpr);
     }

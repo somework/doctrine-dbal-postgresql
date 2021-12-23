@@ -30,7 +30,7 @@ class RegexpReplace extends FunctionNode
      */
     private $flags;
 
-    public function parse(Parser $parser)
+    public function parse(Parser $parser): void
     {
         $parser->match(Lexer::T_IDENTIFIER);
         $parser->match(Lexer::T_OPEN_PARENTHESIS);
@@ -46,7 +46,7 @@ class RegexpReplace extends FunctionNode
         $this->replacement = $parser->StringPrimary();
 
         $this->flags = null;
-        if (Lexer::T_COMMA === $parser->getLexer()->lookahead['type']) {
+        if (Lexer::T_COMMA === ($parser->getLexer()->lookahead['type'] ?? null)) {
             $parser->match(Lexer::T_COMMA);
             $this->flags = $parser->StringPrimary();
         }
@@ -54,7 +54,7 @@ class RegexpReplace extends FunctionNode
         $parser->match(Lexer::T_CLOSE_PARENTHESIS);
     }
 
-    public function getSql(SqlWalker $sqlWalker)
+    public function getSql(SqlWalker $sqlWalker): string
     {
         $arguments = [
             $this->text->dispatch($sqlWalker),
@@ -68,7 +68,7 @@ class RegexpReplace extends FunctionNode
 
         return sprintf(
             'regexp_replace(%s)',
-            join(', ', $arguments)
+            implode(', ', $arguments)
         );
     }
 }

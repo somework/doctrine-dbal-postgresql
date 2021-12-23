@@ -9,22 +9,22 @@ use PHPUnit\Framework\TestCase;
 class EmTestCase extends TestCase
 {
     /** @var EntityManager */
-    protected $em;
+    protected EntityManager $em;
 
     protected function customStringFunctions() : array
     {
         return [];
     }
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $config = Setup::createConfiguration(true);
         $driverImpl = $config->newDefaultAnnotationDriver([__DIR__]);
         $config->setMetadataDriverImpl($driverImpl);
         $this->em = EntityManager::create([
-            'driver' => 'pdo_sqlite',
-            'memory' => true,
-        ], $config);
+                                              'driver' => 'pdo_sqlite',
+                                              'memory' => true,
+                                          ], $config);
 
         foreach ($this->customStringFunctions() as $name => $className) {
             $this->em->getConfiguration()->addCustomStringFunction($name, $className);

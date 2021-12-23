@@ -11,7 +11,7 @@ class TsConcat extends FunctionNode
 {
     private $expr = [];
 
-    public function parse(Parser $parser)
+    public function parse(Parser $parser): void
     {
         $lexer = $parser->getLexer();
         $parser->match(Lexer::T_IDENTIFIER);
@@ -26,13 +26,16 @@ class TsConcat extends FunctionNode
         $parser->match(Lexer::T_CLOSE_PARENTHESIS);
     }
 
-    public function getSql(SqlWalker $sqlWalker)
+    public function getSql(SqlWalker $sqlWalker): string
     {
-        return implode(' || ', array_map(
-            function ($expr) use ($sqlWalker) {
-                return $expr->dispatch($sqlWalker);
-            },
-            $this->expr
-        ));
+        return implode(
+            ' || ',
+            array_map(
+                static function ($expr) use ($sqlWalker) {
+                    return $expr->dispatch($sqlWalker);
+                },
+                $this->expr
+            )
+        );
     }
 }

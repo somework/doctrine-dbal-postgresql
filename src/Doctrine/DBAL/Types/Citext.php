@@ -10,14 +10,14 @@ use Doctrine\DBAL\Types\TextType;
  */
 class Citext extends TextType
 {
-    const CITEXT = 'citext';
+    public const CITEXT = 'citext';
 
-    public function getName()
+    public function getName(): string
     {
         return static::CITEXT;
     }
 
-    public function getSQLDeclaration(array $fieldDeclaration, AbstractPlatform $platform)
+    public function getSQLDeclaration(array $column, AbstractPlatform $platform): string
     {
         return $platform->getDoctrineTypeMapping(static::CITEXT);
     }

@@ -7,22 +7,22 @@ use Doctrine\DBAL\Types\Type;
 
 class ArrayText extends Type
 {
-    const ARRAY_TEXT = 'text[]';
+    public const ARRAY_TEXT = 'text[]';
 
-    public function getName()
+    public function getName(): string
     {
         return static::ARRAY_TEXT;
     }
 
-    public function getSQLDeclaration(array $fieldDeclaration, AbstractPlatform $platform)
+    public function getSQLDeclaration(array $column, AbstractPlatform $platform): string
     {
         return $platform->getDoctrineTypeMapping(static::ARRAY_TEXT);
     }
 
-    public function convertToDatabaseValue($array, AbstractPlatform $platform)
+    public function convertToDatabaseValue($array, AbstractPlatform $platform): ?string
     {
         if ($array === null) {
-            return;
+            return null;
         }
 
         $convertArray = [];
@@ -43,12 +43,12 @@ class ArrayText extends Type
     public function convertToPHPValue($value, AbstractPlatform $platform)
     {
         if ($value === null) {
-            return;
+            return null;
         }
 
         $value = ltrim(rtrim($value, '}'), '{');
         if ($value === '') {
-            return;
+            return null;
         }
         $result = explode(',', $value);
 
