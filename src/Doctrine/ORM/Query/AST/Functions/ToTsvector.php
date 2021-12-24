@@ -17,7 +17,7 @@ class ToTsvector extends FunctionNode
     {
         $parser->match(Lexer::T_IDENTIFIER);
         $parser->match(Lexer::T_OPEN_PARENTHESIS);
-        $this->expr1 = $parser->StringExpression(); //SingleValuedPathExpression();
+        $this->expr1 = $parser->StringExpression();
 
         if ($parser->getLexer()->isNextToken(Lexer::T_COMMA)) {
             $parser->match(Lexer::T_COMMA);

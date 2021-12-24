@@ -5,8 +5,6 @@ namespace Opsway\Doctrine\DBAL\Types;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\JsonType;
 
-//use Doctrine\DBAL\Types\JsonArrayType;
-
 /**
  * @author Sérgio Rafael Siqueira <sergio@inbep.com.br>
  */

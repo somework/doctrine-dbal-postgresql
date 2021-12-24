@@ -10,13 +10,6 @@ class TsConcatTest extends EmTestCase
 {
     use ProphecyTrait;
 
-    protected function customStringFunctions(): array
-    {
-        return [
-            'TS_CONCAT_OP' => TsConcat::class,
-        ];
-    }
-
     /** @dataProvider functionData */
     public function testFunction(string $dql, string $sql): void
     {
@@ -35,6 +28,13 @@ class TsConcatTest extends EmTestCase
                 'SELECT TS_CONCAT_OP(e.id, e.id, e.id) FROM OpsWay\Tests\Entity e',
                 'SELECT e0_.id || e0_.id || e0_.id AS sclr_0 FROM Entity e0_',
             ],
+        ];
+    }
+
+    protected function customStringFunctions(): array
+    {
+        return [
+            'TS_CONCAT_OP' => TsConcat::class,
         ];
     }
 }

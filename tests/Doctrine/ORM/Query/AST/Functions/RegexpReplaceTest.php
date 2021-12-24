@@ -46,6 +46,9 @@ class RegexpReplaceTest extends TestCase
         $parser->getLexer()->shouldBeCalled()->willReturn($lexerEntity);
         $this->regexpReplace->parse($parser->reveal());
 
-        $this->assertEquals('regexp_replace(test, test, test, test)', $this->regexpReplace->getSql($sqlWalker->reveal()));
+        $this->assertEquals(
+            'regexp_replace(test, test, test, test)',
+            $this->regexpReplace->getSql($sqlWalker->reveal())
+        );
     }
 }

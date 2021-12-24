@@ -11,11 +11,6 @@ class EmTestCase extends TestCase
     /** @var EntityManager */
     protected EntityManager $em;
 
-    protected function customStringFunctions() : array
-    {
-        return [];
-    }
-
     protected function setUp(): void
     {
         $config = Setup::createConfiguration(true);
@@ -29,6 +24,11 @@ class EmTestCase extends TestCase
         foreach ($this->customStringFunctions() as $name => $className) {
             $this->em->getConfiguration()->addCustomStringFunction($name, $className);
         }
+    }
+
+    protected function customStringFunctions(): array
+    {
+        return [];
     }
 }
 

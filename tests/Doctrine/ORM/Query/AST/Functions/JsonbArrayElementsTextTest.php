@@ -35,6 +35,9 @@ class JsonbArrayElementsTextTest extends TestCase
         $this->jsonbArrayElementsText->parse($parser->reveal());
         $expr->dispatch()->shouldBeCalled()->withArguments([$sqlWalker->reveal()])->willReturn('test');
 
-        $this->assertEquals('jsonb_array_elements_text(test)', $this->jsonbArrayElementsText->getSql($sqlWalker->reveal()));
+        $this->assertEquals(
+            'jsonb_array_elements_text(test)',
+            $this->jsonbArrayElementsText->getSql($sqlWalker->reveal())
+        );
     }
 }
